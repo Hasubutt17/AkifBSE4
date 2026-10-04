@@ -46,7 +46,7 @@ Existing latent-space layout optimizers assume, but never verify, that (a) the l
   H2: rankings of optimizers differ in at least one complexity band, and polygon-fitness solutions score better on independent `Q`.
 - **RQ3 (optimizer choice).** With RQ1-RQ2 fixed, how do GA, PSO, DE, CMA-ES and NSGA-II compare (final quality, convergence, Pareto coverage) at 1k and 10k evaluations?
   H3: gaps between optimizers are larger and stable once the latent is controllable; NSGA-II gives a better trade-off front than weighted-sum GA/PSO.
-- **RQ4 (transfer).** Do fitness gains transfer to independent metrics `Q` and to the rendered plan?
+- **RQ4 (transfer).** Do fitness gains transfer to independent geometric metrics `Q` (polygon IoU, door-graph walkable path)? Rendering with DiT/Pix2Pix is out of scope (compute) and listed as future work.
 
 ## 6. Success criteria (decide before running)
 
@@ -62,7 +62,13 @@ Existing latent-space layout optimizers assume, but never verify, that (a) the l
 3. Implement polygon fitness using ResPlan polygons, doors, windows; activate `L_ratio`.
 4. Run optimizer benchmark (existing 60-case x 30-seed protocol, extended optimizers and budgets).
 5. Independent evaluation `Q` + small expert study (5-10 architects).
-6. Optional: render with the DiT/Pix2Pix stage and measure conditioning adherence.
+6. Out of scope: training DiT/Pix2Pix renderers (needs more than Kaggle GPU).
+
+## 7b. Compute budget (Kaggle GPU only)
+
+- VAE variants: small Transformer, one session (under 12 h) per variant; reuse saved ResPlan tensors.
+- Optimizers: CPU, about 0.25 s per 1000-evaluation run; 10k-budget benchmark is feasible.
+- Keep checkpoints and results in Kaggle datasets, since sessions are ephemeral.
 
 ## 8. Risks
 
